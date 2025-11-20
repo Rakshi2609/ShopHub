@@ -8,10 +8,14 @@
     "install-all": "npm run install-backend && npm run install-frontend",
     "backend": "cd backend && npm run dev",
     "frontend": "cd frontend && npm run dev",
-    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
-    "start": "npm run dev"
+    "dev": "node init && concurrently \"npm run backend\" \"npm run frontend\"",
+    "start": "node init && npm run dev"
   },
-  "keywords": ["ecommerce", "mern", "fullstack"],
+  "keywords": [
+    "ecommerce",
+    "mern",
+    "fullstack"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
