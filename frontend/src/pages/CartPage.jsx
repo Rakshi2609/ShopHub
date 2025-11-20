@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { removeFromCart, updateCartItemQuantity } from '../redux/slices/cartSlice';
 import { fetchProducts } from '../redux/slices/productSlice';
 import ProductCard from '../components/ProductCard';
-import { FiTrash2, FiShoppingBag } from 'react-icons/fi';
+import { FiTrash2, FiShoppingBag, FiPlus, FiMinus } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 
 const CartPage = () => {
@@ -86,19 +86,25 @@ const CartPage = () => {
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <select
-                    value={item.quantity}
-                    onChange={(e) =>
-                      updateQuantityHandler(item._id, Number(e.target.value))
-                    }
-                    className="input w-20"
-                  >
-                    {[...Array(Math.min(item.stock, 10)).keys()].map((x) => (
-                      <option key={x + 1} value={x + 1}>
-                        {x + 1}
-                      </option>
-                    ))}
-                  </select>
+                  <div className="flex items-center border border-gray-300 rounded-lg">
+                    <button
+                      onClick={() => updateQuantityHandler(item._id, Math.max(1, item.quantity - 1))}
+                      disabled={item.quantity <= 1}
+                      className="px-3 py-2 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      <FiMinus size={16} />
+                    </button>
+                    <span className="px-4 py-2 font-semibold min-w-[3rem] text-center">
+                      {item.quantity}
+                    </span>
+                    <button
+                      onClick={() => updateQuantityHandler(item._id, Math.min(item.stock, item.quantity + 1))}
+                      disabled={item.quantity >= item.stock}
+                      className="px-3 py-2 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      <FiPlus size={16} />
+                    </button>
+                  </div>
 
                   <button
                     onClick={() => removeFromCartHandler(item._id)}
@@ -115,41 +121,43 @@ const CartPage = () => {
         {/* Order Summary */}
         <div className="lg:col-span-1">
           <div className="card p-6 sticky top-24">
-            <h2 className="text-2xl font-bold mb-6">Order Summary</h2>
+            <h2 className="text-xl font-bold mb-6">Order Summary</h2>
             
-            <div className="space-y-3 mb-6">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Subtotal</span>
+            <div className="space-y-4 mb-6">
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600 text-sm">Subtotal</span>
                 <span className="font-semibold">${subtotal.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Tax (10%)</span>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600 text-sm">Tax (10%)</span>
                 <span className="font-semibold">${tax.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Shipping</span>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600 text-sm">Shipping</span>
                 <span className="font-semibold">
                   {shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}
                 </span>
               </div>
-              <div className="border-t pt-3 flex justify-between text-lg">
-                <span className="font-bold">Total</span>
-                <span className="font-bold text-primary-600">
+              <div className="border-t pt-4 mt-4 flex justify-between items-center">
+                <span className="font-bold text-lg">Total</span>
+                <span className="font-bold text-xl text-primary-600">
                   ${total.toFixed(2)}
                 </span>
               </div>
             </div>
 
-            <Link to="/checkout" className="btn btn-primary w-full">
-              Proceed to Checkout
-            </Link>
-            
-            <Link
-              to="/products"
-              className="btn btn-secondary w-full mt-3"
-            >
-              Continue Shopping
-            </Link>
+            <div className="space-y-3">
+              <Link to="/checkout" className="btn btn-primary w-full block text-center">
+                Proceed to Checkout
+              </Link>
+              
+              <Link
+                to="/products"
+                className="btn btn-secondary w-full block text-center"
+              >
+                Continue Shopping
+              </Link>
+            </div>
           </div>
         </div>
       </div>
