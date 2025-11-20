@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { login } from '../../redux/slices/authSlice';
+import API_URL from '../../config/api';
 
 const BecomeSellerPage = () => {
   const navigate = useNavigate();
@@ -40,10 +41,13 @@ const BecomeSellerPage = () => {
       dispatch(login(updatedUserInfo));
 
       toast.success('Welcome to the seller community! 🎉');
-      navigate('/seller/dashboard');
+      
+      // Navigate after a short delay to ensure state updates
+      setTimeout(() => {
+        navigate('/seller/dashboard');
+      }, 500);
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to become a seller');
-    } finally {
       setLoading(false);
     }
   };

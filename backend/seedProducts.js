@@ -18,7 +18,8 @@ const products = [
     stock: 25,
     rating: 4.8,
     numReviews: 128,
-    isFeatured: true
+    isFeatured: true,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'Sony WH-1000XM5 Headphones',
@@ -29,7 +30,8 @@ const products = [
     price: 399.99,
     stock: 40,
     rating: 4.9,
-    numReviews: 215
+    numReviews: 215,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'MacBook Pro 14" M3',
@@ -41,7 +43,8 @@ const products = [
     stock: 15,
     rating: 4.9,
     numReviews: 89,
-    isFeatured: true
+    isFeatured: true,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'Samsung Galaxy S24 Ultra',
@@ -52,7 +55,8 @@ const products = [
     price: 1199.99,
     stock: 30,
     rating: 4.7,
-    numReviews: 156
+    numReviews: 156,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'Canon EOS R6 Mark II',
@@ -64,7 +68,8 @@ const products = [
     stock: 12,
     rating: 4.8,
     numReviews: 67,
-    isFeatured: true
+    isFeatured: true,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'Nike Air Max 270',
@@ -75,7 +80,8 @@ const products = [
     price: 149.99,
     stock: 100,
     rating: 4.6,
-    numReviews: 342
+    numReviews: 342,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'Amazon Echo Dot (5th Gen)',
@@ -86,7 +92,8 @@ const products = [
     price: 49.99,
     stock: 200,
     rating: 4.5,
-    numReviews: 892
+    numReviews: 892,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'Logitech MX Master 3S',
@@ -97,7 +104,8 @@ const products = [
     price: 99.99,
     stock: 75,
     rating: 4.8,
-    numReviews: 234
+    numReviews: 234,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'LG C3 OLED 55" TV',
@@ -109,7 +117,8 @@ const products = [
     stock: 20,
     rating: 4.9,
     numReviews: 145,
-    isFeatured: true
+    isFeatured: true,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'Adidas Ultraboost 23',
@@ -120,7 +129,8 @@ const products = [
     price: 189.99,
     stock: 85,
     rating: 4.7,
-    numReviews: 278
+    numReviews: 278,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'iPad Air (5th Gen)',
@@ -131,7 +141,8 @@ const products = [
     price: 599.99,
     stock: 45,
     rating: 4.8,
-    numReviews: 189
+    numReviews: 189,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'Kindle Paperwhite (11th Gen)',
@@ -142,7 +153,8 @@ const products = [
     price: 139.99,
     stock: 150,
     rating: 4.7,
-    numReviews: 567
+    numReviews: 567,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'The Great Gatsby Book',
@@ -153,7 +165,8 @@ const products = [
     price: 14.99,
     stock: 120,
     rating: 4.8,
-    numReviews: 1024
+    numReviews: 1024,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'Coffee Maker Deluxe',
@@ -164,7 +177,8 @@ const products = [
     price: 89.99,
     stock: 60,
     rating: 4.6,
-    numReviews: 234
+    numReviews: 234,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'Luxury Skincare Set',
@@ -175,7 +189,8 @@ const products = [
     price: 129.99,
     stock: 45,
     rating: 4.7,
-    numReviews: 189
+    numReviews: 189,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'PlayStation 5 Console',
@@ -187,7 +202,8 @@ const products = [
     stock: 18,
     rating: 4.9,
     numReviews: 445,
-    isFeatured: true
+    isFeatured: true,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'Yoga Mat Premium',
@@ -198,7 +214,8 @@ const products = [
     price: 79.99,
     stock: 95,
     rating: 4.6,
-    numReviews: 312
+    numReviews: 312,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'Instant Pot Duo 7-in-1',
@@ -209,7 +226,8 @@ const products = [
     price: 119.99,
     stock: 55,
     rating: 4.8,
-    numReviews: 678
+    numReviews: 678,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'LEGO Star Wars Millennium Falcon',
@@ -221,7 +239,8 @@ const products = [
     stock: 12,
     rating: 4.9,
     numReviews: 234,
-    isFeatured: true
+    isFeatured: true,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'Dyson V15 Detect Vacuum',
@@ -232,7 +251,8 @@ const products = [
     price: 649.99,
     stock: 22,
     rating: 4.7,
-    numReviews: 189
+    numReviews: 189,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'The Art of War Book',
@@ -243,7 +263,8 @@ const products = [
     price: 12.99,
     stock: 200,
     rating: 4.7,
-    numReviews: 892
+    numReviews: 892,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'Wireless Gaming Mouse RGB',
@@ -254,7 +275,8 @@ const products = [
     price: 89.99,
     stock: 67,
     rating: 4.6,
-    numReviews: 445
+    numReviews: 445,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'Leather Jacket Classic',
@@ -265,7 +287,8 @@ const products = [
     price: 599.99,
     stock: 28,
     rating: 4.8,
-    numReviews: 156
+    numReviews: 156,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'Resistance Bands Set',
@@ -276,7 +299,8 @@ const products = [
     price: 29.99,
     stock: 150,
     rating: 4.5,
-    numReviews: 567
+    numReviews: 567,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'Mechanical Keyboard RGB',
@@ -287,7 +311,8 @@ const products = [
     price: 179.99,
     stock: 42,
     rating: 4.8,
-    numReviews: 334
+    numReviews: 334,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'Electric Toothbrush Pro',
@@ -298,7 +323,8 @@ const products = [
     price: 149.99,
     stock: 78,
     rating: 4.7,
-    numReviews: 423
+    numReviews: 423,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'Car Phone Mount Magnetic',
@@ -309,7 +335,8 @@ const products = [
     price: 24.99,
     stock: 125,
     rating: 4.6,
-    numReviews: 678
+    numReviews: 678,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'Stainless Steel Water Bottle',
@@ -320,7 +347,8 @@ const products = [
     price: 44.99,
     stock: 110,
     rating: 4.7,
-    numReviews: 512
+    numReviews: 512,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'Wireless Earbuds Pro',
@@ -332,7 +360,8 @@ const products = [
     stock: 65,
     rating: 4.8,
     numReviews: 789,
-    isFeatured: true
+    isFeatured: true,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'Dumbbell Set Adjustable',
@@ -343,7 +372,8 @@ const products = [
     price: 349.99,
     stock: 32,
     rating: 4.8,
-    numReviews: 234
+    numReviews: 234,
+    seller: '691ec7bec7fe2fd03eb81f58'
   },
   {
     name: 'Smart Watch Fitness Tracker',
@@ -354,7 +384,8 @@ const products = [
     price: 199.99,
     stock: 58,
     rating: 4.6,
-    numReviews: 445
+    numReviews: 445,
+    seller: '691ec7bec7fe2fd03eb81f58'
   }
 ];
 

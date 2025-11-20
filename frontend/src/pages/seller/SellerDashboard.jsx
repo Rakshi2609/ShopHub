@@ -4,8 +4,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import Loader from '../../components/Loader';
-
-const API_URL = import.meta.env.VITE_API_URL || '';
+import API_URL from '../../config/api';
 
 const SellerDashboard = () => {
   const navigate = useNavigate();
@@ -30,6 +29,8 @@ const SellerDashboard = () => {
 
   const fetchSellerData = async () => {
     try {
+      console.log('Fetching seller data...', { userInfo });
+      
       const config = {
         headers: {
           Authorization: `Bearer ${userInfo.token}`
@@ -37,11 +38,15 @@ const SellerDashboard = () => {
       };
 
       // Fetch fresh user data to get updated sales
-      const userResponse = await axios.get('/api/users/profile', config);
+      console.log('Fetching user profile from:', `${API_URL}/api/users/profile`);
+      const userResponse = await axios.get(`${API_URL}/api/users/profile`, config);
       const updatedUser = userResponse.data;
+      console.log('User profile fetched:', updatedUser);
 
       // Fetch seller's products
-      const { data } = await axios.get('/api/products/my-products', config);
+      console.log('Fetching seller products from:', `${API_URL}/api/products/my-products`);
+      const { data } = await axios.get(`${API_URL}/api/products/my-products`, config);
+      console.log('Products fetched:', data);
       setProducts(data);
 
       // Calculate stats
@@ -51,8 +56,13 @@ const SellerDashboard = () => {
         totalRevenue: data.reduce((acc, p) => acc + (p.price * (p.stock || 0)), 0),
         activeOrders: 0 // This would come from orders API
       });
+      
+      console.log('Stats calculated successfully');
     } catch (error) {
-      toast.error('Failed to load seller data');
+      console.error('Seller data fetch error:', error);
+      console.error('Error response:', error.response);
+      const errorMessage = error.response?.data?.message || error.message || 'Failed to load seller data';
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }

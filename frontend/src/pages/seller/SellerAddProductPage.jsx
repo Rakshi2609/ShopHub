@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import API_URL from '../../config/api';
 
 const SellerAddProductPage = () => {
   const navigate = useNavigate();

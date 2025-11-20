@@ -78,6 +78,14 @@ export const loginUser = asyncHandler(async (req, res) => {
 // @route   GET /api/users/profile
 // @access  Private
 export const getUserProfile = asyncHandler(async (req, res) => {
+  console.log('getUserProfile called');
+  console.log('req.user:', req.user);
+  
+  if (!req.user) {
+    res.status(401);
+    throw new Error('User not authenticated');
+  }
+
   const user = await User.findById(req.user._id);
 
   if (user) {
