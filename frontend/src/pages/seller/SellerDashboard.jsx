@@ -5,6 +5,8 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import Loader from '../../components/Loader';
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 const SellerDashboard = () => {
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
@@ -60,7 +62,7 @@ const SellerDashboard = () => {
     if (!window.confirm('Delete this product?')) return;
 
     try {
-      await axios.delete(`/api/products/${id}`, {
+      await axios.delete(`${API_URL}/api/products/${id}`, {
         headers: { Authorization: `Bearer ${userInfo.token}` }
       });
       toast.success('Product deleted');

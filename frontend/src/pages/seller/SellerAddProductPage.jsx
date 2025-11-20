@@ -134,7 +134,7 @@ const SellerAddProductPage = () => {
         }
       };
 
-      await axios.post('/api/products', productData, config);
+      await axios.post(`${API_URL}/api/products`, productData, config);
       
       toast.success('Product added successfully!');
       navigate('/seller/dashboard');

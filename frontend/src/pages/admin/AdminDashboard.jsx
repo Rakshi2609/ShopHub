@@ -21,9 +21,9 @@ const AdminDashboard = () => {
         };
 
         const [ordersRes, productsRes, usersRes] = await Promise.all([
-          axios.get('/api/orders/stats', config),
-          axios.get('/api/products', config),
-          axios.get('/api/users', config)
+          axios.get(`${API_URL}/api/orders/stats`, config),
+          axios.get(`${API_URL}/api/products`, config),
+          axios.get(`${API_URL}/api/users`, config)
         ]);
 
         setStats({

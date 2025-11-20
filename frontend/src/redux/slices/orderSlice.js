@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 const initialState = {
   orders: [],
   order: null,
@@ -21,7 +23,7 @@ export const createOrder = createAsyncThunk(
           Authorization: `Bearer ${auth.userInfo.token}`
         }
       };
-      const { data } = await axios.post('/api/orders', order, config);
+      const { data } = await axios.post(`${API_URL}/api/orders`, order, config);
       return data;
     } catch (error) {
       return rejectWithValue(
@@ -42,7 +44,7 @@ export const getOrderDetails = createAsyncThunk(
           Authorization: `Bearer ${auth.userInfo.token}`
         }
       };
-      const { data } = await axios.get(`/api/orders/${id}`, config);
+      const { data } = await axios.get(`${API_URL}/api/orders/${id}`, config);
       return data;
     } catch (error) {
       return rejectWithValue(
@@ -63,7 +65,7 @@ export const getMyOrders = createAsyncThunk(
           Authorization: `Bearer ${auth.userInfo.token}`
         }
       };
-      const { data } = await axios.get('/api/orders/myorders', config);
+      const { data } = await axios.get(`${API_URL}/api/orders/myorders`, config);
       return data;
     } catch (error) {
       return rejectWithValue(
@@ -86,7 +88,7 @@ export const payOrder = createAsyncThunk(
         }
       };
       const { data } = await axios.put(
-        `/api/orders/${orderId}/pay`,
+        `${API_URL}/api/orders/${orderId}/pay`,
         paymentResult,
         config
       );

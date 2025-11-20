@@ -19,7 +19,7 @@ const ProductsListPage = () => {
 
   const fetchProducts = async () => {
     try {
-      const { data } = await axios.get('/api/products');
+      const { data } = await axios.get(`${API_URL}/api/products`);
       setProducts(data.products);
     } catch (error) {
       toast.error('Failed to load products');
@@ -35,7 +35,7 @@ const ProductsListPage = () => {
 
     setDeleteLoading(id);
     try {
-      await axios.delete(`/api/products/${id}`, {
+      await axios.delete(`${API_URL}/api/products/${id}`, {
         headers: {
           Authorization: `Bearer ${userInfo.token}`
         }

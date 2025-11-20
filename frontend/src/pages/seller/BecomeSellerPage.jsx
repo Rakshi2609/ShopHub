@@ -29,7 +29,7 @@ const BecomeSellerPage = () => {
       };
 
       const { data } = await axios.put(
-        '/api/users/become-seller',
+        `${API_URL}/api/users/become-seller`,
         formData,
         config
       );

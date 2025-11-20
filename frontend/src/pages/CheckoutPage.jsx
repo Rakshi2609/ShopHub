@@ -8,6 +8,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 
+const API_URL = import.meta.env.VITE_API_URL || '';
 const stripePromise = loadStripe('your_stripe_publishable_key');
 
 const CheckoutForm = () => {
@@ -122,7 +123,7 @@ const CheckoutForm = () => {
 
       if (selectedPaymentMethod === 'Stripe') {
         // Create payment intent
-        const { data } = await axios.post('/api/orders/create-payment-intent', {
+        const { data } = await axios.post(`${API_URL}/api/orders/create-payment-intent`, {
           amount: total
         }, {
           headers: {

@@ -6,6 +6,8 @@ import toast from 'react-hot-toast';
 import { login } from '../redux/slices/authSlice';
 import { FiUser, FiMail, FiLock, FiSave } from 'react-icons/fi';
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 const ProfilePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -60,7 +62,7 @@ const ProfilePage = () => {
       };
 
       const { data } = await axios.put(
-        '/api/users/profile',
+        `${API_URL}/api/users/profile`,
         {
           name: formData.name,
           email: formData.email
@@ -105,7 +107,7 @@ const ProfilePage = () => {
       };
 
       await axios.put(
-        '/api/users/password',
+        `${API_URL}/api/users/password`,
         {
           currentPassword: formData.currentPassword,
           newPassword: formData.newPassword

@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 const initialState = {
   products: [],
   product: null,
@@ -17,7 +19,7 @@ export const fetchProducts = createAsyncThunk(
   async ({ keyword = '', category = '', page = 1, minPrice = '', maxPrice = '' }, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(
-        `/api/products?keyword=${keyword}&category=${category}&page=${page}&minPrice=${minPrice}&maxPrice=${maxPrice}`
+        `${API_URL}/api/products?keyword=${keyword}&category=${category}&page=${page}&minPrice=${minPrice}&maxPrice=${maxPrice}`
       );
       return data;
     } catch (error) {
@@ -33,7 +35,7 @@ export const fetchProductById = createAsyncThunk(
   'products/fetchProductById',
   async (id, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`/api/products/${id}`);
+      const { data } = await axios.get(`${API_URL}/api/products/${id}`);
       return data;
     } catch (error) {
       return rejectWithValue(
@@ -56,7 +58,7 @@ export const createReview = createAsyncThunk(
         }
       };
       const { data } = await axios.post(
-        `/api/products/${productId}/reviews`,
+        `${API_URL}/api/products/${productId}/reviews`,
         review,
         config
       );
