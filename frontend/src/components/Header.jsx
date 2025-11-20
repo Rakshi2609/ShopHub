@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FiShoppingCart, FiUser, FiMenu, FiSearch } from 'react-icons/fi';
+import { FiShoppingCart, FiUser, FiMenu, FiSearch, FiX } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 
@@ -123,7 +123,7 @@ const Header = () => {
             className="md:hidden"
             onClick={() => setShowMobileMenu(!showMobileMenu)}
           >
-            <FiMenu size={24} />
+            {showMobileMenu ? <FiX size={24} /> : <FiMenu size={24} />}
           </button>
           </div>
         </div>
@@ -141,10 +141,10 @@ const Header = () => {
               />
             </form>
             <nav className="flex flex-col gap-4">
-              <Link to="/products" className="hover:text-primary-600">
+              <Link to="/products" className="hover:text-primary-600" onClick={() => setShowMobileMenu(false)}>
                 Products
               </Link>
-              <Link to="/cart" className="hover:text-primary-600 flex items-center gap-2">
+              <Link to="/cart" className="hover:text-primary-600 flex items-center gap-2" onClick={() => setShowMobileMenu(false)}>
                 <FiShoppingCart size={20} />
                 Cart
                 {cartItems.length > 0 && (
@@ -155,20 +155,20 @@ const Header = () => {
               </Link>
               {userInfo ? (
                 <>
-                  <Link to="/profile">Profile</Link>
-                  <Link to="/orders">My Orders</Link>
+                  <Link to="/profile" onClick={() => setShowMobileMenu(false)}>Profile</Link>
+                  <Link to="/orders" onClick={() => setShowMobileMenu(false)}>My Orders</Link>
                   {userInfo.isSeller && (
-                    <Link to="/seller/dashboard" className="text-green-600 font-semibold">
+                    <Link to="/seller/dashboard" className="text-green-600 font-semibold" onClick={() => setShowMobileMenu(false)}>
                       Seller Dashboard
                     </Link>
                   )}
                   {!userInfo.isSeller && userInfo.role !== 'admin' && (
-                    <Link to="/become-seller" className="text-blue-600 font-semibold">
+                    <Link to="/become-seller" className="text-blue-600 font-semibold" onClick={() => setShowMobileMenu(false)}>
                       Become a Seller
                     </Link>
                   )}
                   {userInfo.role === 'admin' && (
-                    <Link to="/admin/dashboard">Admin Dashboard</Link>
+                    <Link to="/admin/dashboard" onClick={() => setShowMobileMenu(false)}>Admin Dashboard</Link>
                   )}
                   <button
                     onClick={() => {
@@ -181,7 +181,7 @@ const Header = () => {
                   </button>
                 </>
               ) : (
-                <Link to="/login" className="btn btn-primary w-full">
+                <Link to="/login" className="btn btn-primary w-full" onClick={() => setShowMobileMenu(false)}>
                   Sign In
                 </Link>
               )}
