@@ -73,11 +73,9 @@ web_modules/
 .yarn-integrity
 
 # dotenv environment variable files
-.env
 .env.development.local
 .env.test.local
 .env.production.local
-.env.local
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -139,3 +137,4 @@ dist
 # OS
 .DS_Store
 Thumbs.db
+config.bat
