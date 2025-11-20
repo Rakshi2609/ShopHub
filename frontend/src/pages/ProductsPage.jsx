@@ -34,6 +34,18 @@ const ProductsPage = () => {
     'Other'
   ];
 
+  // Update filters when URL params change
+  useEffect(() => {
+    const newFilters = {
+      keyword: searchParams.get('keyword') || '',
+      category: searchParams.get('category') || '',
+      minPrice: searchParams.get('minPrice') || '',
+      maxPrice: searchParams.get('maxPrice') || '',
+      page: Number(searchParams.get('page')) || 1
+    };
+    setFilters(newFilters);
+  }, [searchParams]);
+
   useEffect(() => {
     dispatch(fetchProducts(filters));
     const params = new URLSearchParams();

@@ -18,8 +18,9 @@ const Header = () => {
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
-      <div className="container-custom py-4">
-        <div className="flex items-center justify-between">
+      <div className="py-4">
+        <div className="container-custom">
+          <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="text-2xl font-bold text-primary-600">
             ShopHub
@@ -124,6 +125,7 @@ const Header = () => {
           >
             <FiMenu size={24} />
           </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}
@@ -141,6 +143,15 @@ const Header = () => {
             <nav className="flex flex-col gap-4">
               <Link to="/products" className="hover:text-primary-600">
                 Products
+              </Link>
+              <Link to="/cart" className="hover:text-primary-600 flex items-center gap-2">
+                <FiShoppingCart size={20} />
+                Cart
+                {cartItems.length > 0 && (
+                  <span className="bg-primary-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
+                  </span>
+                )}
               </Link>
               {userInfo ? (
                 <>

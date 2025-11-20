@@ -9,6 +9,7 @@ import './index.css';
 
 // Components
 import Header from './components/Header';
+import CategoryMarquee from './components/CategoryMarquee';
 import Footer from './components/Footer';
 import PrivateRoute from './components/PrivateRoute';
 import AdminRoute from './components/AdminRoute';
@@ -42,6 +43,7 @@ function App() {
         <Router>
           <div className="flex flex-col min-h-screen">
             <Header />
+            <CategoryMarquee />
             <main className="flex-grow">
               <Suspense fallback={<Loader />}>
               <Routes>

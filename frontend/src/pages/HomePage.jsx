@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../redux/slices/productSlice';
@@ -9,10 +9,19 @@ import { FiShoppingBag, FiTruck, FiShield, FiHeadphones, FiDollarSign, FiTrendin
 const HomePage = () => {
   const dispatch = useDispatch();
   const { products, loading } = useSelector((state) => state.products);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     dispatch(fetchProducts({ page: 1 }));
   }, [dispatch]);
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePosition({
+      x: (e.clientX - rect.left) / rect.width,
+      y: (e.clientY - rect.top) / rect.height
+    });
+  };
 
   const features = [
     {
@@ -39,22 +48,73 @@ const HomePage = () => {
 
   return (
     <div>
-      {/* Hero Section */}
-      <section className="bg-primary-600 text-white py-20">
-        <div className="container-custom">
+      {/* Hero Section with Interactive Gradient Background */}
+      <section 
+        className="relative py-20 overflow-hidden bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600 cursor-pointer"
+        onMouseMove={handleMouseMove}
+      >
+        {/* Decorative Background Elements with Parallax */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div 
+            className="absolute top-0 left-1/4 w-96 h-96 bg-orange-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob transition-transform duration-300"
+            style={{
+              transform: `translate(${mousePosition.x * 30}px, ${mousePosition.y * 30}px) scale(1)`
+            }}
+          ></div>
+          <div 
+            className="absolute top-0 right-1/4 w-96 h-96 bg-yellow-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000 transition-transform duration-300"
+            style={{
+              transform: `translate(${-mousePosition.x * 40}px, ${mousePosition.y * 40}px) scale(1.1)`
+            }}
+          ></div>
+          <div 
+            className="absolute -bottom-8 left-1/3 w-96 h-96 bg-orange-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000 transition-transform duration-300"
+            style={{
+              transform: `translate(${mousePosition.x * 25}px, ${-mousePosition.y * 25}px) scale(0.9)`
+            }}
+          ></div>
+          
+          {/* Additional floating elements */}
+          <div 
+            className="absolute top-1/4 right-1/3 w-64 h-64 bg-yellow-400 rounded-full mix-blend-multiply filter blur-2xl opacity-20 transition-transform duration-500"
+            style={{
+              transform: `translate(${mousePosition.x * 50}px, ${mousePosition.y * 50}px)`
+            }}
+          ></div>
+          <div 
+            className="absolute bottom-1/4 left-1/2 w-80 h-80 bg-red-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 transition-transform duration-700"
+            style={{
+              transform: `translate(${-mousePosition.x * 35}px, ${-mousePosition.y * 35}px)`
+            }}
+          ></div>
+        </div>
+
+        {/* Content with Parallax Effect */}
+        <div 
+          className="container-custom relative z-10 transition-transform duration-200"
+          style={{
+            transform: `translate(${mousePosition.x * 10 - 5}px, ${mousePosition.y * 10 - 5}px)`
+          }}
+        >
           <div className="max-w-3xl">
-            <h1 className="text-5xl font-bold mb-4">
+            <h1 className="text-5xl font-bold mb-4 text-white drop-shadow-lg hover:scale-105 transition-transform duration-300">
               Your Dropshipping Marketplace
             </h1>
-            <p className="text-xl mb-8">
+            <p className="text-xl mb-8 text-white drop-shadow-md hover:scale-102 transition-transform duration-300">
               ShopHub - Where anyone can become a seller. List products, we handle shipping, you earn profits. 
               Start your dropshipping business today with zero inventory risk.
             </p>
             <div className="flex gap-4">
-              <Link to="/become-seller" className="btn bg-white text-primary-600 hover:bg-gray-100 font-semibold px-8 py-3">
+              <Link 
+                to="/become-seller" 
+                className="btn bg-white text-orange-600 hover:bg-gray-100 font-semibold px-8 py-3 transform hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-lg hover:shadow-2xl"
+              >
                 Become a Seller
               </Link>
-              <Link to="/products" className="btn bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary-600 font-semibold px-8 py-3">
+              <Link 
+                to="/products" 
+                className="btn bg-transparent border-2 border-white text-white hover:bg-white hover:text-orange-600 font-semibold px-8 py-3 transform hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-lg hover:shadow-2xl"
+              >
                 Shop Products
               </Link>
             </div>
@@ -65,15 +125,18 @@ const HomePage = () => {
       {/* Features */}
       <section className="py-16 bg-white">
         <div className="container-custom">
-          <h2 className="text-3xl font-bold text-center mb-12">Why Choose ShopHub?</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 hover:scale-105 transition-transform duration-300">Why Choose ShopHub?</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
-              <div key={index} className="text-center p-6 rounded-lg hover:shadow-lg transition-shadow">
-                <div className="text-primary-600 flex justify-center mb-4">
+              <div 
+                key={index} 
+                className="text-center p-6 rounded-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer bg-gradient-to-br from-white to-gray-50 border border-gray-100 group"
+              >
+                <div className="text-primary-600 flex justify-center mb-4 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <h3 className="text-xl font-semibold mb-2 group-hover:text-primary-600 transition-colors duration-300">{feature.title}</h3>
+                <p className="text-gray-600 group-hover:text-gray-800 transition-colors duration-300">{feature.description}</p>
               </div>
             ))}
           </div>
