@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { saveShippingAddress, savePaymentMethod } from '../redux/slices/cartSlice';
+import { saveShippingAddress, savePaymentMethod, removeOrderedItems } from '../redux/slices/cartSlice';
 import { createOrder } from '../redux/slices/orderSlice';
 import toast from 'react-hot-toast';
 import { loadStripe } from '@stripe/stripe-js';
@@ -167,11 +167,24 @@ const CheckoutForm = () => {
         );
 
         toast.success('Order placed successfully!');
+        
+        // Remove ordered items from cart
+        const orderedProductIds = cartItems.map(item => item._id);
+        console.log('Removing items from cart:', orderedProductIds);
+        dispatch(removeOrderedItems(orderedProductIds));
+        
         navigate(`/order/${result._id}`);
       } else {
         // COD order
         const result = await dispatch(createOrder(orderData)).unwrap();
         toast.success('Order placed successfully!');
+        
+        // Remove ordered items from cart
+        const orderedProductIds = cartItems.map(item => item._id);
+        console.log('Removing items from cart (COD):', orderedProductIds);
+        dispatch(removeOrderedItems(orderedProductIds));
+        dispatch(removeOrderedItems(orderedProductIds));
+        
         navigate(`/order/${result._id}`);
       }
     } catch (error) {

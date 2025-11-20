@@ -53,6 +53,17 @@ const cartSlice = createSlice({
     clearCart: (state) => {
       state.cartItems = [];
       localStorage.removeItem('cartItems');
+    },
+    removeOrderedItems: (state, action) => {
+      // Remove items that were ordered (action.payload is array of product IDs)
+      const orderedProductIds = action.payload;
+      console.log('Cart slice - Before removal:', state.cartItems.length, state.cartItems);
+      console.log('Cart slice - IDs to remove:', orderedProductIds);
+      state.cartItems = state.cartItems.filter(
+        (item) => !orderedProductIds.includes(item._id)
+      );
+      console.log('Cart slice - After removal:', state.cartItems.length, state.cartItems);
+      localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
     }
   }
 });
@@ -63,7 +74,8 @@ export const {
   updateCartItemQuantity,
   saveShippingAddress,
   savePaymentMethod,
-  clearCart
+  clearCart,
+  removeOrderedItems
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -1,12 +1,32 @@
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { removeFromCart, updateCartItemQuantity } from '../redux/slices/cartSlice';
+import { fetchProducts } from '../redux/slices/productSlice';
+import ProductCard from '../components/ProductCard';
 import { FiTrash2, FiShoppingBag } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 
 const CartPage = () => {
   const dispatch = useDispatch();
   const { cartItems } = useSelector((state) => state.cart);
+  const { products } = useSelector((state) => state.products);
+  const [recommendedProducts, setRecommendedProducts] = useState([]);
+
+  useEffect(() => {
+    // Fetch products for recommendations
+    dispatch(fetchProducts({ page: 1 }));
+  }, [dispatch]);
+
+  useEffect(() => {
+    // Get random 4 products for recommendations (excluding items already in cart)
+    if (products && products.length > 0) {
+      const cartProductIds = cartItems.map(item => item._id);
+      const availableProducts = products.filter(p => !cartProductIds.includes(p._id));
+      const shuffled = [...availableProducts].sort(() => 0.5 - Math.random());
+      setRecommendedProducts(shuffled.slice(0, 4));
+    }
+  }, [products, cartItems]);
 
   const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id));
@@ -35,7 +55,7 @@ const CartPage = () => {
   }
 
   return (
-    <div className="container-custom py-8">
+    <div className="container-custom py-8 min-h-[70vh]">
       <h1 className="text-3xl font-bold mb-8">Shopping Cart</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -133,6 +153,23 @@ const CartPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Recommended Products Section */}
+      {recommendedProducts.length > 0 && (
+        <div className="mt-12">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold">You May Also Like</h2>
+            <Link to="/products" className="text-primary-600 hover:text-primary-700 font-semibold">
+              View All Products →
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {recommendedProducts.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
