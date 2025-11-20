@@ -4,15 +4,28 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../redux/slices/productSlice';
 import ProductCard from '../components/ProductCard';
 import Loader from '../components/Loader';
-import { FiShoppingBag, FiTruck, FiShield, FiHeadphones, FiDollarSign, FiTrendingUp, FiUsers, FiPackage } from 'react-icons/fi';
+import { FiShoppingBag, FiTruck, FiShield, FiHeadphones, FiDollarSign, FiTrendingUp, FiUsers, FiPackage, FiZap, FiStar } from 'react-icons/fi';
 
 const HomePage = () => {
   const dispatch = useDispatch();
   const { products, loading } = useSelector((state) => state.products);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [particles, setParticles] = useState([]);
+  const [confetti, setConfetti] = useState([]);
 
   useEffect(() => {
     dispatch(fetchProducts({ page: 1 }));
+    
+    // Generate random particles
+    const newParticles = Array.from({ length: 20 }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 4 + 2,
+      duration: Math.random() * 3 + 2,
+      delay: Math.random() * 2
+    }));
+    setParticles(newParticles);
   }, [dispatch]);
 
   const handleMouseMove = (e) => {
@@ -21,6 +34,18 @@ const HomePage = () => {
       x: (e.clientX - rect.left) / rect.width,
       y: (e.clientY - rect.top) / rect.height
     });
+  };
+
+  const triggerConfetti = () => {
+    const newConfetti = Array.from({ length: 50 }, (_, i) => ({
+      id: Date.now() + i,
+      x: Math.random() * 100,
+      y: -10,
+      rotation: Math.random() * 360,
+      color: ['#f97316', '#fb923c', '#fdba74', '#fbbf24', '#fef3c7'][Math.floor(Math.random() * 5)]
+    }));
+    setConfetti(newConfetti);
+    setTimeout(() => setConfetti([]), 3000);
   };
 
   const features = [
@@ -47,12 +72,43 @@ const HomePage = () => {
   ];
 
   return (
-    <div>
+    <div className="relative">
+      {/* Confetti Animation */}
+      {confetti.map((conf) => (
+        <div
+          key={conf.id}
+          className="fixed pointer-events-none z-50 w-3 h-3 animate-confetti"
+          style={{
+            left: `${conf.x}%`,
+            top: `${conf.y}%`,
+            backgroundColor: conf.color,
+            transform: `rotate(${conf.rotation}deg)`,
+            animation: 'confetti-fall 3s ease-out forwards'
+          }}
+        />
+      ))}
+
       {/* Hero Section with Interactive Gradient Background */}
       <section 
         className="relative py-20 overflow-hidden bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600 cursor-pointer"
         onMouseMove={handleMouseMove}
       >
+        {/* Animated Particles */}
+        {particles.map((particle) => (
+          <div
+            key={particle.id}
+            className="absolute rounded-full bg-white opacity-20 animate-float"
+            style={{
+              left: `${particle.x}%`,
+              top: `${particle.y}%`,
+              width: `${particle.size}px`,
+              height: `${particle.size}px`,
+              animationDuration: `${particle.duration}s`,
+              animationDelay: `${particle.delay}s`
+            }}
+          />
+        ))}
+
         {/* Decorative Background Elements with Parallax */}
         <div className="absolute inset-0 overflow-hidden">
           <div 
@@ -97,7 +153,7 @@ const HomePage = () => {
           }}
         >
           <div className="max-w-3xl">
-            <h1 className="text-5xl font-bold mb-4 text-white drop-shadow-lg hover:scale-105 transition-transform duration-300">
+            <h1 className="text-5xl font-bold mb-4 text-white drop-shadow-lg hover:scale-105 transition-transform duration-300 animate-pulse-slow">
               Your Dropshipping Marketplace
             </h1>
             <p className="text-xl mb-8 text-white drop-shadow-md hover:scale-102 transition-transform duration-300">
@@ -107,15 +163,23 @@ const HomePage = () => {
             <div className="flex gap-4">
               <Link 
                 to="/become-seller" 
-                className="btn bg-white text-orange-600 hover:bg-gray-100 font-semibold px-8 py-3 transform hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-lg hover:shadow-2xl"
+                className="btn bg-white text-orange-600 hover:bg-gray-100 font-semibold px-8 py-3 transform hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-lg hover:shadow-2xl relative overflow-hidden group"
+                onClick={triggerConfetti}
               >
-                Become a Seller
+                <span className="relative z-10 flex items-center gap-2">
+                  <FiZap className="group-hover:animate-spin" />
+                  Become a Seller
+                </span>
+                <span className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
               </Link>
               <Link 
                 to="/products" 
-                className="btn bg-transparent border-2 border-white text-white hover:bg-white hover:text-orange-600 font-semibold px-8 py-3 transform hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-lg hover:shadow-2xl"
+                className="btn bg-transparent border-2 border-white text-white hover:bg-white hover:text-orange-600 font-semibold px-8 py-3 transform hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-lg hover:shadow-2xl relative overflow-hidden group"
               >
-                Shop Products
+                <span className="relative z-10 flex items-center gap-2">
+                  <FiStar className="group-hover:animate-bounce" />
+                  Shop Products
+                </span>
               </Link>
             </div>
           </div>
