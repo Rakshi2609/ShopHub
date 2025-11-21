@@ -204,7 +204,10 @@ export const createProductReview = asyncHandler(async (req, res) => {
       product.reviews.length;
 
     await product.save();
-    res.status(201).json({ message: 'Review added' });
+    
+    // Return the updated product
+    const updatedProduct = await Product.findById(req.params.id);
+    res.status(201).json(updatedProduct);
   } else {
     res.status(404);
     throw new Error('Product not found');

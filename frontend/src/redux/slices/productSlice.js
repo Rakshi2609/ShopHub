@@ -10,7 +10,8 @@ const initialState = {
   error: null,
   page: 1,
   pages: 1,
-  total: 0
+  total: 0,
+  reviewLoading: false
 };
 
 // Get all products
@@ -107,6 +108,22 @@ const productSlice = createSlice({
       .addCase(fetchProductById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      // Create review
+      .addCase(createReview.pending, (state) => {
+        state.reviewLoading = true;
+      })
+      .addCase(createReview.fulfilled, (state, action) => {
+        // Update the product with the returned data from server
+        if (state.product && action.payload) {
+          state.product = action.payload;
+        }
+        state.error = null;
+        state.reviewLoading = false;
+      })
+      .addCase(createReview.rejected, (state, action) => {
+        state.error = action.payload;
+        state.reviewLoading = false;
       });
   }
 });

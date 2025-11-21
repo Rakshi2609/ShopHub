@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import toast from 'react-hot-toast';
-import { FiStar, FiShoppingCart, FiHeart, FiShare2, FiZap, FiTrendingUp, FiTruck, FiShield, FiHeadphones } from 'react-icons/fi';
+import { FiShoppingCart, FiHeart, FiShare2, FiZap, FiTrendingUp, FiTruck, FiShield, FiHeadphones, FiStar } from 'react-icons/fi';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
@@ -16,7 +16,7 @@ const ProductDetailPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
-  const { product, loading, error } = useSelector((state) => state.products);
+  const { product, loading, error, reviewLoading } = useSelector((state) => state.products);
   const { userInfo } = useSelector((state) => state.auth);
 
   const [quantity, setQuantity] = useState(1);
@@ -76,10 +76,10 @@ const ProductDetailPage = () => {
           review: { rating, comment }
         })
       ).unwrap();
-      toast.success('Review submitted!');
+      
+      toast.success('Review submitted successfully!');
       setRating(5);
       setComment('');
-      dispatch(fetchProductById(id));
     } catch (err) {
       toast.error(err || 'Failed to submit review');
     }
@@ -108,7 +108,7 @@ const ProductDetailPage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12 lg:items-start">
         {/* Product Images */}
         <div 
-          className="relative group sticky top-4"
+          className="group sticky top-4"
           onMouseEnter={() => setImageHover(true)}
           onMouseLeave={() => setImageHover(false)}
         >
@@ -284,9 +284,9 @@ const ProductDetailPage = () => {
       {/* Reviews Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Write Review */}
-        <div className="card p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+        <div className="card p-6">
           <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-            <FiStar className="text-yellow-400 animate-spin-slow" />
+            <FiStar className="text-yellow-400" />
             Write a Review
           </h2>
           <form onSubmit={submitReviewHandler}>
@@ -295,7 +295,7 @@ const ProductDetailPage = () => {
               <select
                 value={rating}
                 onChange={(e) => setRating(Number(e.target.value))}
-                className="input hover:border-primary-600 transition-colors focus:scale-105"
+                className="input"
               >
                 <option value={5}>⭐⭐⭐⭐⭐ Excellent</option>
                 <option value={4}>⭐⭐⭐⭐ Good</option>
@@ -310,29 +310,28 @@ const ProductDetailPage = () => {
                 rows={4}
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                className="input hover:border-primary-600 transition-all focus:scale-105"
+                className="input"
                 required
                 placeholder="Share your experience..."
               />
             </div>
-            <button type="submit" className="btn btn-primary transform hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-lg hover:shadow-2xl">
-              Submit Review
+            <button type="submit" className="btn btn-primary" disabled={reviewLoading}>
+              {reviewLoading ? 'Submitting...' : 'Submit Review'}
             </button>
           </form>
         </div>
 
         {/* Reviews List */}
-        <div className="card p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+        <div className="card p-6">
           <h2 className="text-2xl font-bold mb-4">Customer Reviews</h2>
-          {product.reviews && product.reviews.length === 0 ? (
-            <p className="text-gray-600 italic">No reviews yet - Be the first! 🌟</p>
+          {!product.reviews || product.reviews.length === 0 ? (
+            <p className="text-gray-600 italic">No reviews yet - Be the first!</p>
           ) : (
-            <div className="space-y-4 max-h-96 overflow-y-auto">
-              {product.reviews.map((review, idx) => (
+            <div className="space-y-4 max-h-96 overflow-y-auto pr-2">
+              {product.reviews.map((review) => (
                 <div 
                   key={review._id} 
-                  className="border-b pb-4 hover:bg-gray-50 p-3 rounded-lg transition-all duration-300 transform hover:translate-x-2"
-                  style={{ animationDelay: `${idx * 0.1}s` }}
+                  className="border-b pb-4 last:border-b-0"
                 >
                   <div className="flex items-center justify-between mb-2">
                     <p className="font-semibold text-primary-600">{review.name}</p>
@@ -340,16 +339,16 @@ const ProductDetailPage = () => {
                       {[...Array(5)].map((_, i) => (
                         <FiStar
                           key={i}
-                          className={`transition-all duration-300 ${i < review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
+                          className={i < review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}
                           size={16}
                         />
                       ))}
                     </div>
                   </div>
                   <p className="text-gray-500 text-sm mb-2">
-                    📅 {new Date(review.createdAt).toLocaleDateString()}
+                    {new Date(review.createdAt).toLocaleDateString()}
                   </p>
-                  <p className="text-gray-700 hover:text-gray-900 transition-colors">{review.comment}</p>
+                  <p className="text-gray-700">{review.comment}</p>
                 </div>
               ))}
             </div>
