@@ -362,8 +362,16 @@ const AddProductPage = () => {
                     return (
                       <div
                         key={image.id}
+                        role="button"
+                        tabIndex="0"
                         onClick={() => toggleImageSelection(image)}
-                        className={`cursor-pointer rounded-lg overflow-hidden ${
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            toggleImageSelection(image);
+                          }
+                        }}
+                        className={`cursor-pointer rounded-lg overflow-hidden focus:outline-none focus:ring-4 focus:ring-primary-300 ${
                           isSelected ? 'ring-4 ring-primary-600' : 'hover:ring-2 ring-gray-300'
                         }`}
                       >
