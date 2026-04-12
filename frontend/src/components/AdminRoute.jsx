@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const AdminRoute = ({ children }) => {
   const { userInfo } = useSelector((state) => state.auth);
-  return userInfo && userInfo.role === 'admin' ? children : <Navigate to="/" />;
+  return userInfo?.role === 'admin' ? children : <Navigate to="/" />;
 };
 
 AdminRoute.propTypes = {

@@ -97,8 +97,8 @@ const AdminDashboard = () => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {statCards.map((card, index) => (
-          <div key={index} className="card p-6">
+        {statCards.map((card) => (
+          <div key={card.title} className="card p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-600 mb-2">{card.title}</p>

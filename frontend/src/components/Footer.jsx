@@ -62,15 +62,27 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4">Follow Us</h4>
             <div className="flex gap-4">
-              <a href="#" className="text-gray-400 hover:text-white transition">
+              <button 
+                type="button"
+                className="text-gray-400 hover:text-white transition focus:outline-none focus:ring-2 focus:ring-primary-500 rounded p-1"
+                aria-label="GitHub"
+              >
                 <FiGithub size={24} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition">
+              </button>
+              <button 
+                type="button"
+                className="text-gray-400 hover:text-white transition focus:outline-none focus:ring-2 focus:ring-primary-500 rounded p-1"
+                aria-label="Twitter"
+              >
                 <FiTwitter size={24} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition">
+              </button>
+              <button 
+                type="button"
+                className="text-gray-400 hover:text-white transition focus:outline-none focus:ring-2 focus:ring-primary-500 rounded p-1"
+                aria-label="LinkedIn"
+              >
                 <FiLinkedin size={24} />
-              </a>
+              </button>
             </div>
           </div>
         </div>

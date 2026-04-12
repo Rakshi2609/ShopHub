@@ -191,9 +191,9 @@ const HomePage = () => {
         <div className="container-custom">
           <h2 className="text-3xl font-bold text-center mb-12 hover:scale-105 transition-transform duration-300">Why Choose ShopHub?</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
+            {features.map((feature) => (
               <div 
-                key={index} 
+                key={feature.title} 
                 className="text-center p-6 rounded-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer bg-gradient-to-br from-white to-gray-50 border border-gray-100 group"
               >
                 <div className="text-primary-600 flex justify-center mb-4 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
