@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { FiStar, FiZap } from 'react-icons/fi';
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const ProductCard = ({ product }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -78,6 +79,24 @@ const ProductCard = ({ product }) => {
       </div>
     </Link>
   );
+};
+
+ProductCard.propTypes = {
+  product: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    images: PropTypes.arrayOf(
+      PropTypes.shape({
+        url: PropTypes.string.isRequired
+      })
+    ).isRequired,
+    rating: PropTypes.number.isRequired,
+    numReviews: PropTypes.number.isRequired,
+    price: PropTypes.number.isRequired,
+    discountPrice: PropTypes.number,
+    stock: PropTypes.number.isRequired,
+    category: PropTypes.string.isRequired
+  }).isRequired
 };
 
 export default ProductCard;
