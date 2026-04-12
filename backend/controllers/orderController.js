@@ -9,6 +9,50 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 // @desc    Create new order
 // @route   POST /api/orders
 // @access  Private
+// Helper to verify stock availability
+const verifyStock = async (orderItems, res) => {
+  for (const item of orderItems) {
+    const product = await Product.findById(item.product);
+    if (!product) {
+      res.status(404);
+      throw new Error(`Product not found: ${item.name}`);
+    }
+    if (product.stock < item.quantity) {
+      res.status(400);
+      throw new Error(`Insufficient stock for ${product.name}`);
+    }
+  }
+};
+
+// Helper to update product stock
+const updateProductStock = async (orderItems) => {
+  for (const item of orderItems) {
+    const product = await Product.findById(item.product);
+    if (product) {
+      product.stock -= item.quantity;
+      await product.save();
+    }
+  }
+};
+
+// Helper to update seller sales
+const updateSellerSales = async (orderItems) => {
+  for (const item of orderItems) {
+    const product = await Product.findById(item.product);
+    if (product && product.seller) {
+      const seller = await User.findById(product.seller);
+      if (seller && seller.isSeller) {
+        const currentSales = seller.sellerInfo?.totalSales || 0;
+        seller.sellerInfo.totalSales = currentSales + item.quantity;
+        await seller.save();
+      }
+    }
+  }
+};
+
+// @desc    Create new order
+// @route   POST /api/orders
+// @access  Private
 export const createOrder = asyncHandler(async (req, res) => {
   const {
     orderItems,
@@ -25,19 +69,10 @@ export const createOrder = asyncHandler(async (req, res) => {
     throw new Error('No order items');
   }
 
-  // Verify stock availability
-  for (const item of orderItems) {
-    const product = await Product.findById(item.product);
-    if (!product) {
-      res.status(404);
-      throw new Error(`Product not found: ${item.name}`);
-    }
-    if (product.stock < item.quantity) {
-      res.status(400);
-      throw new Error(`Insufficient stock for ${product.name}`);
-    }
-  }
+  // 1. Verify stock availability
+  await verifyStock(orderItems, res);
 
+  // 2. Create the order
   const order = new Order({
     user: req.user._id,
     orderItems,
@@ -51,29 +86,12 @@ export const createOrder = asyncHandler(async (req, res) => {
 
   const createdOrder = await order.save();
 
-  // Update product stock
-  for (const item of orderItems) {
-    const product = await Product.findById(item.product);
-    product.stock -= item.quantity;
-    await product.save();
-  }
+  // 3. Update product stock
+  await updateProductStock(orderItems);
 
-  // If payment method is COD, increment seller sales immediately
+  // 4. If payment method is COD, update seller sales immediately
   if (paymentMethod === 'COD') {
-    for (const item of orderItems) {
-      const product = await Product.findById(item.product);
-      console.log('COD Order - Product:', product.name, 'Seller ID:', product.seller);
-      if (product && product.seller) {
-        const seller = await User.findById(product.seller);
-        console.log('Found seller:', seller?.name, 'isSeller:', seller?.isSeller);
-        if (seller && seller.isSeller) {
-          const currentSales = seller.sellerInfo?.totalSales || 0;
-          seller.sellerInfo.totalSales = currentSales + item.quantity;
-          await seller.save();
-          console.log('Updated seller sales from', currentSales, 'to', seller.sellerInfo.totalSales);
-        }
-      }
-    }
+    await updateSellerSales(orderItems);
   }
 
   res.status(201).json(createdOrder);
@@ -124,20 +142,7 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
     const updatedOrder = await order.save();
 
     // Update seller's total sales for each product in the order
-    for (const item of order.orderItems) {
-      const product = await Product.findById(item.product);
-      console.log('Stripe Order - Product:', product.name, 'Seller ID:', product.seller);
-      if (product && product.seller) {
-        const seller = await User.findById(product.seller);
-        console.log('Found seller:', seller?.name, 'isSeller:', seller?.isSeller);
-        if (seller && seller.isSeller) {
-          const currentSales = seller.sellerInfo?.totalSales || 0;
-          seller.sellerInfo.totalSales = currentSales + item.quantity;
-          await seller.save();
-          console.log('Updated seller sales from', currentSales, 'to', seller.sellerInfo.totalSales);
-        }
-      }
-    }
+    await updateSellerSales(order.orderItems);
 
     res.json(updatedOrder);
   } else {
