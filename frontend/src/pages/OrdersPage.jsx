@@ -21,7 +21,7 @@ const OrdersPage = () => {
 
   useEffect(() => {
     // Get random 4 products for recommendations
-    if (products && products.length > 0) {
+    if (products?.length > 0) {
       const shuffled = [...products].sort(() => 0.5 - Math.random());
       setRecommendedProducts(shuffled.slice(0, 4));
     }
@@ -34,7 +34,7 @@ const OrdersPage = () => {
     <div className="container-custom py-8 min-h-[70vh]">
       <h1 className="text-3xl font-bold mb-6">My Orders</h1>
 
-      {orders && orders.length === 0 ? (
+      {orders?.length === 0 ? (
         <div className="text-center py-12">
           <FiPackage size={64} className="mx-auto text-gray-400 mb-4" />
           <p className="text-xl text-gray-600 mb-4">No orders yet</p>
@@ -69,11 +69,11 @@ const OrdersPage = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {orders.map((order) => (
+                {orders?.map((order) => (
                   <tr key={order._id}>
                     <td className="px-6 py-4 text-sm font-medium text-gray-900">
                       <div className="max-w-xs">
-                        {order.orderItems && order.orderItems.length > 0 ? (
+                        {order.orderItems?.length > 0 ? (
                           <div>
                             <div className="font-semibold">{order.orderItems[0].name}</div>
                             {order.orderItems.length > 1 && (
@@ -91,7 +91,7 @@ const OrdersPage = () => {
                       {new Date(order.createdAt).toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      ${order.totalPrice.toFixed(2)}
+                      ${order.totalPrice?.toFixed(2)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {order.isPaid ? (

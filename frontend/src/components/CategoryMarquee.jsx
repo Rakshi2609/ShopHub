@@ -12,7 +12,7 @@ const CategoryMarquee = () => {
         <span className="inline-block">
           {[...categories, ...categories, ...categories].map((category, index) => (
             <Link
-              key={index}
+              key={`${category}-${index}`}
               to={`/products?category=${category}`}
               className="inline-block mx-6 text-white hover:text-yellow-300 transition-colors font-semibold text-sm"
             >

@@ -60,7 +60,7 @@ const CheckoutForm = () => {
         );
         const data = await response.json();
 
-        if (data && data.length > 0) {
+        if (data?.length > 0) {
           const location = data[0];
           const addressParts = location.display_name.split(', ');
           

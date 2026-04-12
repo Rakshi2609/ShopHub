@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 const Message = ({ variant = 'info', children }) => {
   const variants = {
     info: 'bg-blue-100 text-blue-800 border-blue-300',
@@ -11,6 +13,11 @@ const Message = ({ variant = 'info', children }) => {
       {children}
     </div>
   );
+};
+
+Message.propTypes = {
+  variant: PropTypes.string,
+  children: PropTypes.node.isRequired
 };
 
 export default Message;
