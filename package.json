@@ -6,11 +6,11 @@
     "install-backend": "cd backend && npm install",
     "install-frontend": "cd frontend && npm install",
     "install-all": "npm run install-backend && npm run install-frontend",
-    "build": "cd backend && npm install",
-    "start": "cd backend && npm start",
+    "build": "node init && cd backend && npm install",
+    "start": "node init && cd backend && npm start",
     "backend": "cd backend && npm run dev",
     "frontend": "cd frontend && npm run dev",
-    "dev": "concurrently \"npm run backend\" \"npm run frontend\""
+    "dev": "node init && concurrently \"npm run backend\" \"npm run frontend\""
   },
   "keywords": [
     "ecommerce",
